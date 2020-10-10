@@ -1,29 +1,46 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { ApolloProvider, Query } from 'react-apollo';
 
 import client from "./client";
-import { ME } from "./graphql"
+import { ME, SEARCH_REPOSITORIES } from "./graphql"
 console.log(ME)
 
-function App() {
-  return (
-    <ApolloProvider client={client}>
-      <div>
-        Hello
-      </div>
+const VARIABLES = {
+  "first": 5,
+  "after": null,
+  "last": null,
+  "before": null,
+  "query": "フロントエンドエンジニア"
+};
 
-      <Query query={ME}>
-        {
-          ({ loading, error, data }) => {
-            if (loading) return 'Loading';
-            if (error) return `Error ${error.message}`;
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = VARIABLES;
+  }
 
-            return <div>{data.user.name}</div>
+  render() {
+    const { query, first, last, before, after } = this.state;
+
+    return (
+      <ApolloProvider client={client}>
+        <Query
+          query={SEARCH_REPOSITORIES}
+          variables={{ query, first, last, before, after }}
+        >
+          {
+            ({ loading, error, data }) => {
+              if (loading) return 'Loading';
+              if (error) return `Error ${error.message}`;
+
+              console.log({ data })
+              return <div></div>
+            }
           }
-        }
-      </Query>
-    </ApolloProvider>
-  );
+        </Query>
+      </ApolloProvider>
+    );
+  }
 }
 
 export default App;
