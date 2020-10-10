@@ -45,8 +45,11 @@ class App extends Component {
               if (loading) return 'Loading';
               if (error) return `Error ${error.message}`;
 
-              console.log({ data })
-              return <div></div>
+              console.log(data.search);
+              const search = data.search;
+              const repositoryCount = search.repositoryCount;
+              const repositoryUnit = repositoryCount === 1 ? "Repository" : "Repositories"
+              return <div>{data.search.repositoryCount} {repositoryUnit}</div>
             }
           }
         </Query>
