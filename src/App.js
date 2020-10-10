@@ -49,7 +49,23 @@ class App extends Component {
               const search = data.search;
               const repositoryCount = search.repositoryCount;
               const repositoryUnit = repositoryCount === 1 ? "Repository" : "Repositories"
-              return <div>{data.search.repositoryCount} {repositoryUnit}</div>
+              return (
+                <>
+                  <h2>{data.search.repositoryCount} {repositoryUnit}</h2>
+                  <ul>
+                    {
+                      search.edges.map(edge => {
+                        const node = edge.node;
+                        return (
+                          <li key={node.id}>
+                            <a href={node.url} target="_blank">{node.name}</a>
+                          </li>
+                        )
+                      })
+                    }
+                  </ul>
+                </>
+              );
             }
           }
         </Query>
