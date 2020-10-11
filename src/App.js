@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import { ApolloProvider, Query } from 'react-apollo';
 
 import client from "./client";
-import { ME, SEARCH_REPOSITORIES } from "./graphql"
-console.log(ME)
+import { SEARCH_REPOSITORIES } from "./graphql"
+
+const StarButton = props => {
+  return <button>{props.node.stargazers.totalCount} stars</button>
+}
 
 const PER_PAGE = 5;
 const DEFAULT_STATE = {
@@ -84,6 +87,8 @@ class App extends Component {
                             >
                               {node.name}
                             </a>
+                            &nbsp;
+                            <StarButton node={node} />
                           </li>
                         )
                       })
